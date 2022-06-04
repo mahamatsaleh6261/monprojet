@@ -1,0 +1,40 @@
+{% extends "dashboard.html" %}
+
+{% block contenu %}
+
+<div class="col-3 mt-3">
+	<form class="" method="POST">
+
+
+		{% csrf_token %}
+
+		<div class="form-floating mb-3">
+			{{ form.nom }}
+			<label for="floatingInput">Nom</label>
+		</div>
+		<div class="form-floating mb-3">
+			{{ form.prenom }}
+			<label for="floatingInput">Prénom</label>
+		</div>
+		<div class="form-floating mb-3">
+			{{ form.sexe }}
+			<label for="floatingInput">Sexe</label>
+		</div>
+		<div class="form-floating mb-3">
+			{{ form.telephone }}
+			<label for="floatingInput">Téléphone</label>
+		</div>
+		<div class="form-floating mb-3">
+			{{ form.email }}
+			<label for="floatingInput">Adresse email</label>
+		</div>
+		<div class="form-floating mb-3">
+			{{ form.type_de_compte }}
+			<label for="floatingInput">Type de Compte</label>
+		</div>
+
+		<button type="submit" class="w-100 btn btn-lg btn-primary">Enregistrer</button>
+	</form>
+</div>
+
+{% endblock %}

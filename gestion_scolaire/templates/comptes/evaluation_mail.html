@@ -1,0 +1,7 @@
+{% autoescape off %}
+
+Bonjour {{ note.etudiant.prenom }},
+
+C'est pour vous informer que vous aurez un {{ note.evaluation.type_evaluation|lower }} {% if note.evaluation.matiere.nom|first|lower == "a" or note.evaluation.matiere.nom|first|lower == "h" or note.evaluation.matiere.nom|first|lower == "i" or note.evaluation.matiere.nom|first|lower == "o" or note.evaluation.matiere.nom|first|lower == "u" or note.evaluation.matiere.nom|first|lower == "y" or note.evaluation.matiere.nom|first|lower == "e" %} d'{{ note.evaluation.matiere.nom|lower }}{% else %} de {{ note.evaluation.matiere.nom|lower }}{% endif %} qui se déroulera le {{ note.evaluation.date }}.
+
+{% endautoescape %}

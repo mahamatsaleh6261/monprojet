@@ -1,0 +1,99 @@
+{% extends "dashboard.html" %}
+
+
+{% block body %}
+{% url "cours:ajouter_module" as add_module_url %}
+{% url "cours:modules" as list_module_url %}
+
+{% if request.path == add_module_url %}
+<div class="col-12 bg-white shadow-sm p-3 pb-4 mb-3">
+	<div class="row row-cols-2 mb-4">
+		<div class="col">
+			<h2 id="">Ajouter un module</h2>
+		</div>
+		<div class="col-auto ms-auto">
+			<a href="{{ list_module_url }}" class="link-secondary text-decoration-none">Fermer</a>
+		</div>
+	</div>
+	<form class="row row-cols-2 g-3" method="POST">
+		{% csrf_token %}
+		<div class="col">
+			<div class="form-floating mb-3">
+				{{ form.specialite }}
+				<label for="floatingInput">Spécialité</label>
+			</div>
+			<div class="row row-cols-2 gx-3">
+				<div class="col">
+					<div class="form-floating mb-3">
+						{{ form.grade }}
+						<label for="floatingInput">Grade</label>
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-floating mb-3">
+						{{ form.semestre }}
+						<label for="floatingInput">Semestre</label>
+					</div>
+				</div>
+			</div>
+			<div class="form-floating mb-3">
+				{{ form.nom }}
+				<label for="floatingInput">Module</label>
+			</div>
+			<div class="row row-cols-2 gx-3">
+				<div class="col">
+					<div class="form-floating">
+						{{ form.code }}
+						<label for="floatingInput">Code</label>
+					</div>
+				</div>
+				<div class="col">
+					<button type="submit" class="btn btn-lg btn-primary w-100 h-100">Enregistrer</button>	
+				</div>
+			</div>			
+		</div>
+	</form>
+</div>
+{% endif %}
+
+<div class="col-12 bg-white shadow-sm p-3">
+	<div class="row row-cols-2 mb-3">
+		<div class="col">
+			<h2>Liste de modules</h2>
+		</div>
+		<div class="col-auto ms-auto">
+			{% if request.path == list_module_url %}
+			<a class="btn btn-secondary" href="{{ add_module_url }}" role="button">Ajouter</a>
+			{% endif %}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12 table-responsive">
+			<table class="table table-striped table-sm">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Code</th>
+						<th scope="col">Module</th>
+						<th scope="col">Semestre</th>
+						<th scope="col">Grade</th>
+						<th scope="col">Spécialité</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for module in modules %}
+					<tr>
+						<td>{{ forloop.counter }}</td>
+						<td>{{ module.code }}</td>
+						<td>{{ module.nom }}</td>
+						<td>{{ module.semestre }}</td>
+						<td>{{ module.grade }}</td>
+						<td>{{ module.specialite.nom }}</td>
+					</tr>
+					{% endfor  %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{% endblock %}

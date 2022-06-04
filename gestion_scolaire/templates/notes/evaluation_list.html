@@ -1,0 +1,117 @@
+{% extends "dashboard.html" %}
+{% load humanize %}
+
+{% block body %}
+{% url "etudiants:etudiant" etudiant.pk as etudiant_detail_url %}
+{% url "etudiants:inscription" etudiant.pk as etudiant_inscription_url %}
+{% url "notes:notes" evaluation.pk as evaluation_notes_url %}
+
+{% if request.path == evaluation_notes_url %}
+<div class="col-12 bg-white shadow-sm p-3">
+	<div class="row row-cols-2 mb-3 mx-0">
+		<div class="col-3 px-0">
+			<h2>{{ evaluation.type_evaluation }}</h2>
+		</div>
+		<div class="col-9 border-top border-bottom">
+			
+			<div class="row row-cols-2 py-1">
+				<div class="col-6 px-0">
+					<p class="m-0">Matière</p>
+					<p class="mb-1 h5">{{ evaluation.matiere.nom }}</p>
+					<p class="m-0">Crédit</p>
+					<p class="mb-1 h5">{{ evaluation.matiere.credit }}</p>
+					<p class="m-0">Effectif</p>
+					<p class="mb-1 h5">{{ notes.count }}</p>
+				</div>
+				<div class="col-auto">
+					<p class="m-0">Date</p>
+					<p class="mb-1 h5">{{ evaluation.date }}</p>
+					<p class="m-0">Semestre</p>
+					<p class="mb-1 h5">{{ evaluation.matiere.module.semestre }}</p>
+					<p class="m-0">Année académique</p>
+					<p class="mb-1 h5">{{ evaluation.annee }}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12 table-responsive">
+			<form method="POST">
+				{% csrf_token %}
+				<table class="table table-striped table-sm">
+					<thead>
+						<tr>
+							<th scope="col">Matricule</th>
+							<th scope="col">Nom</th>
+							<th scope="col">Prenom</th>
+							<th scope="col">Moyenne</th>
+							<th scope="col"></th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for note in notes %}
+						<tr >
+							<td>{{ note.etudiant.matricule }}</td>
+							<td>{{ note.etudiant.nom }}</td>
+							<td>{{ note.etudiant.prenom }}</td>
+							<td class="py-0" ondblclick="edit(this)">
+								<input type="text" class="form-control border-0 w-50" name="{{ note.etudiant.matricule }}" value="{{ note.moyenne|floatformat:'2u' }}" disabled onblur="disable(this)" style="background-color: inherit;">
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+						{% endfor  %}
+					</tbody>
+				</table>
+				<div class="row">
+					<div class="col-3">
+						<button type="submit" class="btn btn-lg btn-primary w-100">Enregistrer</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% else %}
+<div class="col-12 bg-white shadow-sm p-3">
+	<div class="row row-cols-2 mb-3">
+		<div class="col">
+			<h2>Evaluations</h2>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12 table-responsive">
+			<table class="table table-striped table-sm">
+				<thead>
+					<tr>
+						<th scope="col">Code</th>
+						<th scope="col">Matière</th>
+						<th scope="col">Crédit</th>
+						<th scope="col">Type</th>
+						<th scope="col">Date</th>
+						<th scope="col">Année</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for evaluation in evaluations %}
+					<tr>
+						<td>{{ evaluation.matiere.code }}</td>
+						<td>{{ evaluation.matiere.nom }}</td>
+						<td>{{ evaluation.matiere.credit }}</td>
+						<td>{{ evaluation.type_evaluation }}</td>
+						<td>{{ evaluation.date }}</td>
+						<td>{{ evaluation.annee }}</td>
+						<td>
+							<a href="{% url 'notes:notes' evaluation.pk %}" class="text-decoration-none">Notes</a>
+						</td>
+					</tr>
+					{% endfor  %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "dashboard.html" %}
+
+{% block contenu %}
+<div class="row">
+	<div class="col-12">
+		<div class="card mb-4">
+			<div class="card-header pb-0 pr-0">
+				<div class="row row-cols-2">
+					<div class="col-9">
+						<h6>Tablau des employés</h6>
+					</div>
+					<div class="col-3 ">
+						<a class="col-12 btn bg-gradient-dark mb-0" href="{% url 'comptes:enregistrer' %}"><i class="p-0 fas fa-plus"></i>&nbsp;&nbsp;Ajouter Staff</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="card-body px-0 pt-0 pb-2">
+				<div class="table-responsive p-0">
+					<table class="table mb-0">
+						<thead>
+							<tr>
+								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#</th>
+								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nom</th>
+								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Prenom</th>
+								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sexe</th>
+								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Poste</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for staff in staff_list %}
+							<tr>
+								
+								<td>
+									<p class="text-xs font-weight-bold mb-0">{{ forloop.counter }}</p>
+								</td>
+
+								<td>
+									<p class="text-xs font-weight-bold mb-0">{{ staff.nom }}</p>
+								</td>
+
+								<td>
+									<p class="text-xs font-weight-bold mb-0">{{ staff.prenom }}</p>
+								</td>
+
+								<td>
+									<p class="text-xs font-weight-bold mb-0">{{ staff.sexe }}</p>
+								</td>
+								{% if staff.compte.type_de_compte == 'administrateur' %}
+								
+								<td>
+									<p class="text-xs font-weight-bold mb-0">Administrateur</p>
+								</td>
+								{% else %}
+								
+								<td>
+									<p class="text-xs font-weight-bold mb-0">Personnel</p>
+								</td>
+
+								{% endif  %}
+								
+								
+							</tr>
+							{% endfor %}
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

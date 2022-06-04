@@ -1,0 +1,156 @@
+{% extends "dashboard.html" %}
+
+
+{% block body %}
+{% url "cours:ajouter_matiere" as add_matiere_url %}
+{% url "cours:matieres" as list_matiere_url %}
+
+{% if request.user.type_de_compte == 'ST' %}
+{% if request.path == add_matiere_url %}
+<div class="col-12 bg-white shadow-sm p-3 pb-4 mb-3">
+	<div class="row row-cols-2 mb-4">
+		<div class="col">
+			<h2 id="">Ajouter une matière</h2>
+		</div>
+		<div class="col-auto ms-auto">
+			<a href="{{ list_matiere_url }}" class="link-secondary text-decoration-none">Fermer</a>
+		</div>
+	</div>
+	<form class="row row-cols-2 g-3" method="POST">
+		{% csrf_token %}
+		<div class="col">
+			<div class="form-floating mb-3">
+				{{ form.module }}
+				<label for="floatingInput">Module</label>
+			</div>
+			<div class="row row-cols-2 gx-3">
+				<div class="col">
+					<div class="form-floating mb-3">
+						{{ form.code }}
+						<label for="floatingInput">Code</label>
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-floating mb-3">
+						{{ form.credit }}
+						<label for="floatingInput">Crédit</label>
+					</div>
+				</div>
+			</div>
+			<div class="form-floating mb-3">
+				{{ form.nom }}
+				<label for="floatingInput">Matière</label>
+			</div>
+			<button type="submit" class="btn btn-lg btn-primary w-100">Enregistrer</button>
+		</div>
+	</form>
+</div>
+{% endif %}
+
+<div class="col-12 bg-white shadow-sm p-3">
+	<div class="row row-cols-2 mb-3">
+		<div class="col">
+			<h2>Liste de matières</h2>
+		</div>
+		<div class="col-auto ms-auto">
+			{% if request.path == list_matiere_url %}
+			<a class="btn btn-secondary" href="{{ add_matiere_url }}" role="button">Ajouter</a>
+			{% endif %}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12 table-responsive">
+			<table class="table table-striped table-sm">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Code</th>
+						<th scope="col">Matière</th>
+						<th scope="col">Crédit</th>
+						<th scope="col">Module</th>
+						<th scope="col">Semestre</th>
+						<th scope="col">Grade</th>
+						<th scope="col">Spécialité</th>
+						<th scope="col"></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for matiere in matieres %}
+					<tr>
+						<td>{{ forloop.counter }}</td>
+						<td>{{ matiere.code }}</td>
+						<td>{{ matiere.nom }}</td>
+						<td>{{ matiere.credit }}</td>
+						<td>{{ matiere.module.nom }}</td>
+						<td>{{ matiere.module.semestre }}</td>
+						<td>{{ matiere.module.grade }}</td>
+						<td>{{ matiere.module.specialite.sigle }}</td>
+						<td>
+							<a href="{% url 'cours:matiere' matiere.pk %}" class="text-decoration-none">Attribuer</a>
+						</td>
+					</tr>
+					{% endfor  %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{% elif request.user.type_de_compte == 'EN' %}
+{% if programmes.count != 0 %}
+<div class="col-12 bg-white shadow-sm p-3">
+	<div class="row row-cols-2 mb-3">
+		<div class="col">
+			<h2>Matières en charge</h2>
+		</div>
+		<div class="col-auto ms-auto">
+			{% if request.path == list_enseignant_url %}
+			<a class="btn btn-secondary" href="{{ add_enseignant_url }}" role="button">Ajouter</a>
+			{% endif %}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12 table-responsive">
+			<table class="table table-striped table-sm">
+				<thead>
+					<tr>
+						<th scope="col">Code</th>
+						<th scope="col">Matière</th>
+						<th scope="col">Crédit</th>
+						<th scope="col">Semestre</th>
+						<th scope="col">Grade</th>
+						<th scope="col">Année</th>
+						<th scope="col"></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for programme in programmes %}
+
+					<tr>
+						<td>{{ programme.matiere.code }}</td>
+						<td>{{ programme.matiere.nom }}</td>
+						<td>{{ programme.matiere.credit }}</td>
+						<td>{{ programme.matiere.module.semestre }}</td>
+						<td>{{ programme.matiere.module.grade }}</td>
+						<td>{{ programme.annee }}</td>
+						<td>
+							<a href="{% url 'notes:ajouter' programme.pk %}" class="text-decoration-none">Evaluation</a>
+						</td>
+					</tr>
+					{% endfor  %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{% else %}
+<div class="col-12 bg-white shadow-sm p-3">
+	<div class="row">
+		<div class="col">
+			<h2 class="text-secondary">Aucune matière ne vous ai encore attribuée </h2>
+		</div>
+	</div>
+</div>
+{% endif %}
+{% else %}
+{% endif %}
+{% endblock %}

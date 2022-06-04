@@ -1,0 +1,32 @@
+{% extends "dashboard.html" %}
+
+
+{% block body %}
+<div class="col-12 bg-white shadow-sm p-3 pb-4 mb-3">
+	<div class="row row-cols-2 mb-4">
+		<div class="col">
+			<h2 id="">Attribuer une matière</h2>
+		</div>
+	</div>
+	<form class="row row-cols-2 g-3" method="POST">
+		{% csrf_token %}
+		<div class="col">
+			<div class="form-floating mb-3">
+				{{ form.enseignant }}
+				<label for="floatingInput">Enseignant</label>
+			</div>
+			<div class="row row-cols-2 gx-3">
+				<div class="col">
+					<div class="form-floating">
+						{{ form.annee }}
+						<label for="floatingInput">Annéé académique</label>
+					</div>
+				</div>
+				<div class="col mh-100">
+					<button type="submit" class="btn btn-lg btn-primary w-100 h-100">Attribuer</button>
+				</div>
+			</div>	
+		</div>
+	</form>
+</div>
+{% endblock %}

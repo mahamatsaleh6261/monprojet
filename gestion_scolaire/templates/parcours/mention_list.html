@@ -1,0 +1,69 @@
+{% extends "dashboard.html" %}
+
+
+{% block body %}
+{% url "parcours:ajouter_mention" as add_mention_url %}
+{% url "parcours:mentions" as list_mention_url %}
+
+{% if request.path == add_mention_url %}
+<div class="col-12 bg-white shadow-sm p-3 pb-4 mb-3">
+	<div class="row row-cols-2 mb-4">
+		<div class="col">
+			<h2 id="">Ajouter une mention</h2>
+		</div>
+		<div class="col-auto ms-auto">
+			<a href="{{ list_mention_url }}" class="link-secondary text-decoration-none">Fermer</a>
+		</div>
+	</div>
+	<form class="row row-cols-2 gy-3" method="POST">
+		{% csrf_token %}
+		<div class="col gy-3">
+			<div class="form-floating mb-3">
+				{{ form.domain }}
+				<label for="floatingInput">Domaine</label>
+			</div>
+			<div class="form-floating mb-3">
+				{{ form.nom }}
+				<label for="floatingInput">Mention</label>
+			</div>
+			<button type="submit" class="btn btn-lg btn-primary w-100">Enregistrer</button>
+		</div>
+	</form>
+</div>
+{% endif %}
+
+<div class="col-12 bg-white shadow-sm p-3">
+	<div class="row row-cols-2 mb-3">
+		<div class="col">
+			<h2>Liste de mentions</h2>
+		</div>
+		<div class="col-auto ms-auto">
+			{% if request.path == list_mention_url %}
+			<a class="btn btn-secondary" href="{{ add_mention_url }}" role="button">Ajouter</a>
+			{% endif %}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12 table-responsive">
+			<table class="table table-striped table-sm">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Domain</th>
+						<th scope="col">Mention</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for mention in mentions %}
+					<tr>
+						<td>{{ forloop.counter }}</td>
+						<td>{{ mention.domain.nom }}</td>
+						<td>{{ mention.nom }}</td>
+					</tr>
+					{% endfor  %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{% endblock %}

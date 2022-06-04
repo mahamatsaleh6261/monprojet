@@ -1,0 +1,22 @@
+{% extends "dashboard.html" %}
+
+
+{% block body %}
+{% url "parcours:ajouter_domain" as add_domain_url %}
+<div class="container-fluid p-0 mb-3">
+	<div class="row row-cols-2 gx-3">
+		<div class="col">
+			<div class="bg-white p-3 shadow" style="height: 150px;">
+				<div class="h4 mb-3">Modules</div>
+				<div class="h1">200</div>
+			</div>
+		</div>
+		<div class="col">
+			<div class="bg-white p-3 shadow" style="height: 150px;">
+				<div class="h4 mb-3">Matières</div>
+				<div class="h1">200</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

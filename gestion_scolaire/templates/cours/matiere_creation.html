@@ -1,0 +1,31 @@
+{% extends "dashboard.html" %}
+
+{% block body %}
+<div class="bg-white shadow-sm p-3">
+   <div class="row mb-3">
+      <h2>Ajouter un matière</h2>
+   </div>
+   <form class="row row-cols-2 g-3" method="POST">
+      {% csrf_token %}
+      <div class="col">
+         <div class="form-floating mb-3">
+            {{ form.module }}
+            <label for="floatingInput">Module</label>
+         </div>
+         <div class="form-floating mb-3">
+            {{ form.code }}
+            <label for="floatingInput">Code</label>
+         </div>
+         <div class="form-floating mb-3">
+            {{ form.nom }}
+            <label for="floatingInput">Intitulé</label>
+         </div>
+         <div class="form-floating mb-3">
+            {{ form.credit }}
+            <label for="floatingInput">Crédit</label>
+         </div>
+         <button type="submit" class="w-100 btn btn-lg btn-primary">Enregistrer</button>
+      </div>
+   </form>
+</div>
+{% endblock %}

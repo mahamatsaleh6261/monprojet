@@ -1,0 +1,28 @@
+{% extends "dashboard.html" %}
+
+
+{% block body %}
+{% url "enseignants:ajouter" as add_enseignant_url %}
+<div class="container-fluid p-0 mb-3">
+	<div class="row row-cols-3 gx-3">
+		<div class="col">
+			<div class="bg-white p-3 shadow" style="height: 150px;">
+				<div class="h4 mb-3">Title</div>
+				<div class="h1">200</div>
+			</div>
+		</div>
+		<div class="col">
+			<div class="bg-white p-3 shadow" style="height: 150px;">
+				<div class="h4 mb-3">Title</div>
+				<div class="h1">200</div>
+			</div>
+		</div>
+		<div class="col">
+			<div class="bg-white p-3 shadow" style="height: 150px;">
+				<div class="h4 mb-3">Title</div>
+				<div class="h1">200</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

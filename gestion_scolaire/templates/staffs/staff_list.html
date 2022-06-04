@@ -1,0 +1,124 @@
+{% extends "dashboard.html" %}
+
+
+{% block body %}
+
+{% url "staffs:ajouter" as add_staff_url %}
+{% url "staffs:staffs" as list_staff_url %}
+
+{% if request.path == add_staff_url %}
+<div class="col-12 bg-white shadow-sm p-3 pb-4 mb-3">
+	<div class="row row-cols-2 mb-4">
+		<div class="col">
+			<h2 id="">Ajouter un staff</h2>
+		</div>
+		<div class="col-auto ms-auto">
+			<a href="{{ list_staff_url }}" class="link-secondary text-decoration-none">Fermer</a>
+		</div>
+	</div>
+	<form class="row row-cols-2 g-3" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<div class="col">
+			<div class="form-floating mb-3">
+				{{ form.nom }}
+				<label for="floatingInput">Nom</label>
+			</div>
+			<div class="row row-cols-2 gx-3">
+				<div class="col">
+					<div class="form-floating mb-3 d-flex">
+						{{ form.date_de_naissance }}
+						<label for="floatingInput">Date de naissance</label>
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-floating mb-3">
+						{{ form.sexe }}
+						<label for="floatingInput">Sexe</label>
+					</div>
+				</div>
+			</div>
+			<div class="form-floating mb-3">
+				{{ form.email }}
+				<label for="floatingInput">Adresse email</label>
+			</div>
+			<div>
+				{{ form.photo }}
+			</div>
+		</div>
+		<div class="col">
+			<div class="form-floating mb-3">
+				{{ form.prenom }}
+				<label for="floatingInput">Prénom</label>
+			</div>
+			<div class="row row-cols-2 gx-3">
+				<div class="col">
+					<div class="form-floating mb-3 d-flex">
+						{{ form.pays }}
+						<label for="floatingInput">Pays</label>
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-floating mb-3">
+						{{ form.type_de_compte }}
+						<label for="floatingInput">Type de compte</label>
+					</div>
+				</div>
+			</div>
+			<div class="form-floating mb-3">
+				{{ form.telephone }}
+				<label for="floatingInput">Téléphone</label>
+			</div>
+			<button type="submit" class="w-100 stretch btn btn-lg btn-primary">Enregistrer</button>
+		</div>
+	</form>
+</div>
+{% endif %}
+
+<div class="col-12 bg-white shadow-sm p-3">
+	<div class="row row-cols-2 mb-3">
+		<div class="col">
+			<h2>Liste de staffs</h2>
+		</div>
+		<div class="col-auto ms-auto">
+			{% if request.path == list_staff_url %}
+			<a class="btn btn-secondary" href="{{ add_staff_url }}" role="button">Ajouter</a>
+			{% endif %}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12 table-responsive">
+			<table class="table table-striped table-sm">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Nom</th>
+						<th scope="col">Prénom</th>
+						<th scope="col">Sexe</th>
+						<th scope="col">Poste</th>
+						<th scope="col"></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for staff in staffs %}
+					
+					<tr>
+						<td>{{ forloop.counter }}</td>
+						<td>{{ staff.nom }}</td>
+						<td>{{ staff.prenom }}</td>
+						<td>{{ staff.sexe }}</td>
+						{% if staff.compte.type_de_compte == 'AD' %}
+						<td>Administrateur</td>
+						{% else  %}
+						<td>Staff</td>
+						{% endif  %}
+						<td>
+							<a href="{% url 'staffs:staff' staff.pk %}" class="text-decoration-none">Détail</a>
+						</td>
+					</tr>
+					{% endfor  %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "dashboard.html" %}
+
+{% block body %}
+{% url "etudiants:etudiant" etudiant.pk as etudiant_detail_url %}
+{% url "etudiants:inscription" etudiant.pk as etudiant_inscription_url %}
+
+<div class="bg-white shadow-sm p-3 mb-3">
+	<div class="row row-cols-2 mb-3">
+		<div class="col">
+			<h2>Programmer une évaluation</h2>
+		</div>
+	</div>
+	<form class="row row-cols-2 gx-3 mt-3" method="POST">
+		{% csrf_token %}
+		<div class="col">
+			<div class="row row-cols-2 gx-3">
+				<div class="col">
+					<div class="form-floating mb-3">
+						{{ form.type_evaluation }}
+						<label for="floatingInput">Type</label>
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-floating mb-3 d-flex">
+						{{ form.date }}
+						<label for="floatingInput">Date</label>
+					</div>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-lg btn-primary w-100">Enregistrer</button>
+		</div>
+	</form>
+</div>
+{% endblock %}

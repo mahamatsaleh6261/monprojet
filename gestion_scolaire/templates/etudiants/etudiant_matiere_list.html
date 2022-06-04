@@ -1,0 +1,45 @@
+{% extends "dashboard.html" %}
+
+
+{% block body %}
+
+{% url "etudiants:ajouter" as add_etudiant_url %}
+{% url "etudiants:etudiants" as list_etudiant_url %}
+
+
+<div class="col-12 bg-white shadow-sm p-3">
+	<div class="row row-cols-2 mb-3">
+		<div class="col">
+			<h2>Mes matières</h2>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12 table-responsive">
+			<table class="table table-striped table-sm">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Code</th>
+						<th scope="col">Matière</th>
+						<th scope="col">Crédit</th>
+						<th scope="col">Semestre</th>
+						<th scope="col">Grade</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for matiere in matieres %}
+					<tr>
+						<td>{{ forloop.counter }}</td>
+						<td>{{ matiere.code }}</td>
+						<td>{{ matiere.nom }}</td>
+						<td>{{ matiere.credit }}</td>
+						<td>{{ matiere.module.semestre }}</td>
+						<td>{{ matiere.module.grade }}</td>
+					</tr>
+					{% endfor  %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{% endblock %}

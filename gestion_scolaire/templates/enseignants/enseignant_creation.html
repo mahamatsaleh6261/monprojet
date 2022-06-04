@@ -1,0 +1,38 @@
+{% extends "dashboard.html" %}
+
+{% block body %}
+<div class="bg-white shadow-sm p-3">
+	<div class="row mb-3">
+		<h2>Ajouter un enseignant</h2>
+	</div>
+	<form class="row row-cols-2 g-3" method="POST">
+		{% csrf_token %}
+		<div class="col">
+			<div class="form-floating mb-3">
+				{{ form.nom }}
+				<label for="floatingInput">Nom</label>
+			</div>
+			<div class="form-floating mb-3">
+				{{ form.sexe }}
+				<label for="floatingInput">Sexe</label>
+			</div>
+			<div class="form-floating mb-3">
+				{{ form.email }}
+				<label for="floatingInput">Adresse email</label>
+			</div>
+		</div>
+
+		<div class="col">
+			<div class="form-floating mb-3">
+				{{ form.prenom }}
+				<label for="floatingInput">Prénom</label>
+			</div>
+			<div class="form-floating mb-3">
+				{{ form.telephone }}
+				<label for="floatingInput">Téléphone</label>
+			</div>
+			<button type="submit" class="w-100 stretch btn btn-lg btn-primary">Enregistrer</button>
+		</div>
+	</form>
+</div>
+{% endblock %}

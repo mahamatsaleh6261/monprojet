@@ -1,0 +1,109 @@
+{% url "comptes:login" as login_url %}
+{% url "comptes:logout" as logout_url %}
+{% url "comptes:profil" as profil_url %}
+
+{% url "staffs:ajouter" as add_staff_url %}
+{% url "staffs:staffs" as list_staff_url %}
+{% url "staffs:dashboard" as staff_dashboard_url %}
+
+{% url "parcours:domains" as list_domain_url %}
+{% url "parcours:ajouter_domain" as add_domain_url %}
+
+{% url "parcours:mentions" as list_mention_url %}
+{% url "parcours:ajouter_mention" as add_mention_url %}
+{% url "parcours:specialites" as list_specialite_url %}
+{% url "parcours:ajouter_specialite" as add_specialite_url %}
+{% url "parcours:dashboard" as parcours_dashboard_url %}
+
+{% url "cours:modules" as list_module_url %}
+{% url "cours:ajouter_module" as add_module_url %}
+{% url "cours:matieres" as list_matiere_url %}
+{% url "cours:ajouter_matiere" as add_matiere_url %}
+{% url "cours:dashboard" as cours_dashboard_url %}
+
+{% url "enseignants:enseignants" as list_enseignant_url %}
+{% url "enseignants:ajouter" as add_enseignant_url %}
+{% url "enseignants:enseignant" as detail_enseignant_url %}
+{% url "enseignants:dashboard" as enseignant_dashboard_url %}
+{% url "enseignants:matieres" as enseignant_matiere_url %}
+
+{% url "etudiants:etudiants" as list_etudiant_url %}
+{% url "etudiants:ajouter" as add_etudiant_url %}
+{% url "etudiants:etudiant" as detail_etudiant_url %}
+{% url "etudiants:matieres" as etudiant_matiere_url %}
+{% url "etudiants:notes" as etudiant_note_url %}
+
+{% url "notes:evaluations" request.user.pk as enseignant_evaluation_url %}
+
+<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sticky-top" id="sidebarHeight">
+	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+		<a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+			<h1 class="h2">Collecte de note</h1>
+		</a>
+		
+	</div>
+	<ul class="nav nav-pills flex-column mb-auto">
+		{% if request.user.type_de_compte == 'AD' %}
+		<li>
+			<a href="{{ list_staff_url }}" class="nav-link text-white {% if 'staffs' in request.path %}active{% endif %}">
+				Staffs
+			</a>
+		</li>
+		{% elif request.user.type_de_compte == 'ST' %}
+		<li>
+			<a href="{{ list_etudiant_url }}" class="nav-link text-white {% if 'etudiants' in request.path %}active{% endif %}">
+				Etudiants
+			</a>
+		</li>
+		<li>
+			<a href="{{ list_domain_url }}" class="nav-link text-white {% if 'parcours' in request.path %}active{% endif %}">
+				Parcours
+			</a>
+		</li>
+		<li>
+			<a href="{{ list_enseignant_url }}" class="nav-link text-white {% if 'enseignants' in request.path %}active{% endif %}">
+				Enseignants
+			</a>
+		</li>
+		<li>
+			<a href="{{ list_matiere_url }}" class="nav-link text-white {% if 'parcours' in request.path %}{% elif 'cours' in request.path %}active{% else %}{% endif %}">
+				Cours
+			</a>
+		</li>
+		{% elif request.user.type_de_compte == 'EN' %}
+		<li>
+			<a href="{{ enseignant_matiere_url }}" class="nav-link text-white {% if 'matieres' in request.path %}active{% endif %}">
+				Matières
+			</a>
+		</li>
+		<li>
+			<a href="{{ enseignant_evaluation_url }}" class="nav-link text-white {% if 'evaluations' in request.path %}active{% endif %}">
+				Evaluations
+			</a>
+		</li>
+		{% elif request.user.type_de_compte == 'ET' %}
+		<li>
+			<a href="{{ etudiant_matiere_url }}" class="nav-link text-white {% if 'matieres' in request.path %}active{% endif %}">
+				Mes matières
+			</a>
+		</li>
+		<li>
+			<a href="{{ etudiant_note_url }}" class="nav-link text-white {% if 'notes' in request.path %}active{% endif %}">
+				Mes notes
+			</a>
+		</li>
+		{% else %}
+		{% endif %}
+		<li>
+			<a href="{{ profil_url }}" class="nav-link text-white {% if 'profil' in request.path %}active{% endif %}">
+				Mon Profil
+			</a>
+		</li>
+	</ul>
+	<hr>
+	<div class="">
+		{% if request.user.is_authenticated %}
+		<a class="w-100 btn btn-secondary" href="{{ logout_url }}" role="button">Déconnexion</a>
+		{% endif %}
+	</div>
+</div>

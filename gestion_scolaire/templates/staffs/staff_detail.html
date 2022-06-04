@@ -1,0 +1,103 @@
+{% extends "dashboard.html" %}
+
+
+{% block body %}
+{% url "staffs:staff" staff.pk as staff_detail_url %}
+<div class="bg-white shadow-sm p-3 mb-3">
+	<div class="row row-cols-2 mb-3">
+		<div class="col">
+			<h2>Informations</h2>
+		</div>
+		<div class="col-auto ms-auto">
+			{% if request.path == staff_detail_url %}
+			<a class="btn btn-secondary" href="" role="button">Editer</a>
+			{% else %}
+			<a href="{{ staff_detail_url }}" class="link-secondary text-decoration-none">Fermer</a>
+			{% endif %}
+		</div>
+	</div>
+	<div class="row row-cols-2 m-0" method="POST">
+		<div class="col-3 p-0 mr-3">
+			<img class="img-fluid" src="{{ staff.compte.photo.url }}">
+		</div>
+		<div class="col-9 px-3 py-0">
+			<div class="row row-cols-3 border-top border-bottom ms-0 pt-2 h-100">
+				<div class="col-4 ps-0">
+					<p class="m-0"><small class="h7 text-decoration-none">Matricule</small></p>
+					<p class="mb-2 h6">{{ staff.matricule }}</p>
+					<p class="m-0">Nom</p>
+					<p class="mb-2 h6">{{ staff.nom }}</p>
+					<p class="m-0">Prénom</p>
+					<p class="mb-2 h6">{{ staff.prenom }}</p>
+					<p class="m-0">pays</p>
+					<p class="mb-2 h6">{{ staff.pays }}</p>
+				</div>
+				<div class="col-auto">
+					<p class="m-0">Sexe</p>
+					<p class="mb-2 h6">
+						{% if staff.sexe == 'M' %}
+						Masculin
+						{% else %}
+						Féminin
+						{% endif %}
+					</p>
+					<p class="m-0">Date de naissance</p>
+					<p class="mb-2 h6">{{ staff.date_de_naissance }}</p>
+					<p class="m-0">Email</p>
+					<p class="mb-2 h6">{{ staff.compte.email }}</p>
+					<p class="m-0">Téléphone</p>
+					<p class="mb-2 h6">{{ staff.compte.telephone }}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% if request.path == update_enseignant_url %}
+	<form class="row row-cols-2 g-3 mt-3" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<div class="col">
+			<div class="form-floating mb-3">
+				{{ form.nom }}
+				<label for="floatingInput">Nom</label>
+			</div>
+			<div class="row row-cols-2 gx-3">
+				<div class="col">
+					<div class="form-floating mb-3 d-flex">
+						{{ form.date_de_naissance }}
+						<label for="floatingInput">Date de naissance</label>
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-floating mb-3">
+						{{ form.sexe }}
+						<label for="floatingInput">Sexe</label>
+					</div>
+				</div>
+			</div>
+			<div class="form-floating mb-3">
+				{{ form.email }}
+				<label for="floatingInput">Adresse email</label>
+			</div>
+			
+			<button type="submit" class="w-100 stretch btn btn-lg btn-primary">Enregistrer</button>
+		</div>
+		<div class="col">
+			<div class="form-floating mb-3">
+				{{ form.prenom }}
+				<label for="floatingInput">Prénom</label>
+			</div>
+			<div class="form-floating mb-3">
+				{{ form.pays }}
+				<label for="floatingInput">Pays</label>
+			</div>
+			<div class="form-floating mb-3">
+				{{ form.telephone }}
+				<label for="floatingInput">Téléphone</label>
+			</div>
+			<div>
+				{{ form.photo }}
+			</div>
+		</div>
+	</form>
+	{% endif %}
+</div>
+{% endblock %}

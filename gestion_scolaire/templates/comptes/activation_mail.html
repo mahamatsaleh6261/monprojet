@@ -1,0 +1,9 @@
+{% autoescape off %}
+
+Bienvenu parmi nous
+
+Veuillez cliquer sur le lien suivant pour activer votre compte.
+
+{{ protocol }}://localhost:8000{% url 'comptes:activate' uidb64=uid token=token %}
+
+{% endautoescape %}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% url "parcours:ajouter_domain" as add_domain_url %}
+{% url "parcours:ajouter_mention" as add_mention_url %}
+{% url "parcours:ajouter_specialiter" as add_domain_url %}
+{% url "parcours:domains" as list_domain_url %}
+{% url "parcours:mentions" as list_mention_url %}
+{% url "parcours:specialites" as list_specialite_url %}
+{% url "parcours:dashboard" as parcours_dashboard_url %}
+
+{% url "cours:modules" as list_module_url %}
+{% url "cours:matieres" as list_matiere_url %}
+{% url "cours:ajouter_module" as add_module_url %}
+{% url "cours:ajouter_matiere" as add_matiere_url %}
+{% url "cours:dashboard" as cours_dashboard_url %}
+
+{% url "enseignants:enseignants" as list_enseignant_url %}
+{% url "enseignants:ajouter" as add_enseignant_url %}
+{% url "enseignants:enseignant" enseignant.pk as enseignant_detail_url %}
+
+{% url "etudiants:etudiants" as list_etudiant_url %}
+{% url "etudiants:ajouter" as add_etudiant_url %}
+{% url "etudiants:etudiant" as detail_etudiant_url %}
+
+<div class="container-fluid" style="background-color: #E4E7E9;">
+	<div class="row row-cols-2">
+		<div class="col-2 col-lg-3 p-0">
+			{% include 'sidebar.html' %}
+		</div>
+		<div class="col-10 col-lg-9">
+			<div class="row sticky-top bg-white" style="height: 70px;">
+				<div class="col-auto d-flex px-3">
+					<div class="row align-items-center">
+						{% if request.user.type_de_compte == 'ST' %}
+						{% if 'parcours' in request.path %}
+						<a class="col text-decoration-none {% if not 'domaines' in request.path %}text-secondary{% endif %}" href="{{ list_domain_url }}">Domaines</a>
+						<a class="col text-decoration-none {% if not 'mentions' in request.path %}text-secondary{% endif %}" href="{{ list_mention_url }}">Mentions</a>
+						<a class="col text-decoration-none {% if not 'specialites' in request.path %}text-secondary{% endif %}" href="{{ list_specialite_url }}">Spécialités</a>
+						{% elif '/cours' in request.path %}
+						<a class="col text-decoration-none {% if not 'modules' in request.path %}text-secondary{% endif %}" href="{{ list_module_url }}">Modules</a>
+						<a class="col text-decoration-none {% if not 'matieres' in request.path %}text-secondary{% endif %}" href="{{ list_matiere_url }}">Matières</a>
+						{% else %}
+						
+						{% endif %}
+						{% endif %}
+
+
+						
+					</div>
+				</div>
+				<div class='col-auto ms-auto d-flex align-items-center px-3'>
+					<span class='col mx-3'>Bienvenu, 
+						<strong>
+						{% if request.user.type_de_compte == 'AD' %}
+						{{ request.user.staff.prenom }}
+						{% elif request.user.type_de_compte == 'ST' %}
+						{{ request.user.staff.prenom }}
+						{% elif request.user.type_de_compte == 'EN' %}
+						{{ request.user.enseignant.prenom }}
+						{% else %}
+						{{ request.user.etudiant.prenom }}
+						{% endif %}
+						</strong>
+					</span>
+					<img class="img-fluid rounded-pill" src="{{ request.user.photo.url }}" width="40">
+				</div>
+			</div>
+			<div class="row p-3">
+				{% block body %} {% endblock %}
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
